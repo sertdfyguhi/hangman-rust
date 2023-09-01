@@ -111,7 +111,7 @@ impl<'a> GameManager<'a> {
  │     {}
  │      {}      {}
 ─┴─",
-            if self.strikes >= 1 { HANGMAN1 } else { "" },
+            slice(HANGMAN1, self.strikes, 0),
             slice(HANGMAN2, self.strikes, 1),
             slice(HANGMAN3, self.strikes, 4),
             self.to_guessed_str(),
