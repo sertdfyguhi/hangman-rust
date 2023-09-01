@@ -23,10 +23,7 @@ fn main() {
 
     // get random word
     println!("Starting game...");
-    let word = match wordlist.choose(&mut rand::thread_rng()) {
-        Some(word) => word,
-        None => unreachable!()
-    };
+    let word = wordlist.choose(&mut rand::thread_rng()).unwrap();
 
     let mut manager = GameManager::new(word);
 
