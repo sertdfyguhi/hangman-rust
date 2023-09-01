@@ -86,22 +86,14 @@ impl<'a> GameManager<'a> {
     }
 
     pub fn to_guessed_str(&self) -> String {
-        let mut guessed_str = String::new();
-
-        for (i, c) in self.word.chars().enumerate() {
+        self.word.chars().enumerate().map(|(i, c)| {
             // check if i'th bit in bitmap is 1
             if self.pos_bitmap & (1 << 15 - i) != 0 {
-                guessed_str.push(c);
+                c.to_string()
             } else {
-                guessed_str.push('_');
+                String::from("_")
             }
-
-            if i < self.word.len() - 1 {
-                guessed_str.push(' ');
-            }
-        }
-
-        guessed_str
+        }).collect::<Vec<String>>().join(" ")
     }
 
     pub fn to_hangman_str(&self) -> String {
