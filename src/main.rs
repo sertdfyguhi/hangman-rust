@@ -49,8 +49,6 @@ fn main() {
         io::stdin().read_line(&mut guess).expect("Unable to read stdin.");
 
         match manager.guess(guess.trim()) {
-            GameStatus::Active => (),
-            GameStatus::Striked => (),
             GameStatus::Won => {
                 println!("You won in {} tries!", manager.guesses);
                 break;
@@ -59,6 +57,7 @@ fn main() {
                 println!("You lost! The word was {}.", manager.word);
                 break;
             },
+            _ => continue,
         }
     }
 }
