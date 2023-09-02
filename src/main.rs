@@ -1,10 +1,7 @@
 mod game_manager;
 
 use std::io::{self, Write};
-use std::process::exit;
-
 use rand::seq::SliceRandom;
-
 use crate::game_manager::*;
 
 const WORDLIST_CONTENTS: &'static str = include_str!("wordlist.txt");
@@ -12,17 +9,7 @@ const WORDLIST_CONTENTS: &'static str = include_str!("wordlist.txt");
 fn main() {
     println!("Hangman v1.0 by sertdfyguhi.");
 
-    // reads wordlist
-    println!("Loading wordlist...");
     let wordlist: Vec<&str> = WORDLIST_CONTENTS.split('\n').collect();
-
-    if wordlist.len() == 0 {
-        println!("Empty wordlist found.");
-        exit(0)
-    }
-
-    // get random word
-    println!("Starting game...");
     let word = wordlist.choose(&mut rand::thread_rng()).unwrap();
 
     let mut manager = GameManager::new(word);
@@ -38,7 +25,7 @@ fn main() {
 
         match manager.guess(guess.trim()) {
             GameStatus::Won => {
-                println!("You won in {} tries!", manager.guesses);
+                println!("You won in {} tries with {} strikes!", manager.guesses, manager.strikes);
                 break;
             },
             GameStatus::Lost => {
