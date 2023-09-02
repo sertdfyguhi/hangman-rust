@@ -4,11 +4,15 @@ const HANGMAN3: &'static str = "╱╲";
 
 // slices string with something something clamping idk its 1am
 fn slice(string: &str, n: u8, min: u8) -> String {
+    let str_len = string.chars().count();
+
     if n <= min {
-        String::from("")
+        " ".repeat(str_len)
     } else {
-        let end = n.clamp(min, min + string.len() as u8) - min;
-        string.chars().take(end.into()).collect()
+        let end = (n.clamp(min, min + str_len as u8) - min) as usize;
+        // using .chars since string contains UTF-16 characters
+        // which in a string slice is not accounted for (slices at byte)
+        string.chars().take(end).collect::<String>() + &" ".repeat(str_len - end)
     }
 }
 
@@ -78,7 +82,11 @@ impl<'a> GameManager<'a> {
                 self.status = GameStatus::Won;
             } else {
                 self.strikes += 1;
-                self.status = GameStatus::Striked;
+                self.status = if self.strikes > 5 {
+                    GameStatus::Lost
+                } else {
+                    GameStatus::Striked
+                };
             }
         }
 
