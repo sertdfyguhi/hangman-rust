@@ -29,7 +29,7 @@ fn main() {
                 break;
             },
             GameStatus::Lost => {
-                println!("You lost! The word was {}.", manager.word);
+                println!("You lost with {} tries! The word was {}.", manager.guesses, manager.word);
                 break;
             },
             _ => continue,
